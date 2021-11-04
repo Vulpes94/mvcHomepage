@@ -1,0 +1,74 @@
+@charset "UTF-8";
+#register{
+	border: dotted 0px red;
+	width: 600px;
+	height: 510px;
+	margin: 0px auto;
+}
+
+#register > #subject > h4{
+	text-align: center;
+}
+
+#register > #form_style{
+	border:solid 0px blue;
+	width: 600px;
+	height: 450px;
+}
+
+#register > #form_style > .line{
+	border:solid 0px cyan;
+	width: 600px;
+	height: 35px;
+}
+
+#register > #form_style > .line > .title{
+	border: solid 2px #000000;
+	width: 195px;
+	height: 35px;
+	display: block;
+	float:left;
+	
+	line-height: 35px;
+	border-bottom-width: 0px;
+	border-right-width: 0px;
+	padding-left: 5px;
+}
+
+#register > #form_style > .line > .content{
+	border: solid 2px #000000;
+	width: 385px;
+	height: 35px;
+	display: block;
+	float:left;
+	
+	line-height: 35px;
+	border-bottom-width: 0px;
+	padding-left: 5px;
+}
+
+#register > #form_style > .line_btn{
+	border: solid 2px #000000;
+	width: 593px;
+	height: 35px;
+	
+	text-align: center;
+	line-height: 35px;
+	clear:left;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
