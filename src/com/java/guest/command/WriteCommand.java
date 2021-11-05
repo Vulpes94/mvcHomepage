@@ -37,13 +37,12 @@ public class WriteCommand implements Command {
 		MyLogger.logger.info(MyLogger.logMsg + guestList.size());
 	
 		request.setAttribute("guestList", guestList);
-		request.setAttribute("count", count);
-		request.setAttribute("boardSize", boardSize);
-		request.setAttribute("currentPage", currentPage);
-	
-//		return "/WEB-INF/views/guest/write.jsp";
 		
-		return null;
+		request.setAttribute("count", count);	// 총 레코드 수
+		request.setAttribute("boardSize", boardSize); // 한페이지 당 게시물 수
+		request.setAttribute("currentPage", currentPage); // 요청페이지
+	
+		return "/WEB-INF/views/guest/write.jsp";
 	}
 
 }
