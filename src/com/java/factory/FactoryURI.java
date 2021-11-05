@@ -45,9 +45,13 @@ public class FactoryURI {
 		//방명록
 		commandMap.put("/guest/write.do", new WriteCommand());
 		commandMap.put("/guest/writeOk.do", new WriteOkCommand());
+		
 		commandMap.put("/guest/delete.do", new com.java.guest.command.DeleteCommand());
 		commandMap.put("/guest/update.do", new com.java.guest.command.UpdateCommand());
 		commandMap.put("/guest/updateOk.do", new com.java.guest.command.UpdateOkCommand());
+		
+		//게시판
+		commandMap.put("/board/write.do",new com.java.board.command.WriteCommand());
 		
 		return commandMap;
 	}

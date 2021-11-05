@@ -29,11 +29,20 @@
 	<br />
 	
 	<h3>방명록</h3>
-	<a href="${root}/guest/write.do">방명록 작성</a>
-<!-- 	
+	<a href="${root}/guest/write.do">방명록 작성</a> <br />
 	
 	<h3>게시판</h3>
+	<a href="${root}/board/write.do">게시판 쓰기</a>
+	<a href="">게시판 목록</a>
 	
-	<h3>파일 게시판</h3> -->
+	<!-- 	<h3>파일 게시판</h3> -->
 </body>
 </html>
+
+
+
+
+
+
+
+
