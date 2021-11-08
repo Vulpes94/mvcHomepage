@@ -52,6 +52,9 @@ public class FactoryURI {
 		
 		//게시판
 		commandMap.put("/board/write.do",new com.java.board.command.WriteCommand());
+		commandMap.put("/board/writeOk.do", new com.java.board.command.WriteOkCommand());
+		
+		commandMap.put("/board/list.do", new com.java.board.command.ListCommand());
 		
 		return commandMap;
 	}
