@@ -44,7 +44,7 @@
 				<td width="350" height="20" align="center">${boardDto.subject}</td>
 				<td width="70" height="20" align="center">${boardDto.writer}</td>
 				<td width="110" height="20" align="center">
-					<fmt:formatDate value="${boardDto.writeDate}" pattern="yyyy-MM-dd hh:mm:ss"/>
+					<fmt:formatDate value="${boardDto.writeDate}" pattern="yyyy-MM-dd HH:mm:ss"/>
 				</td>
 				<td width="50" height="20" align="center">${boardDto.readCount}</td>
 			  </tr>
