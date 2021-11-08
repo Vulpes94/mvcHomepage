@@ -1,6 +1,11 @@
-/build/
-
 #Eclipse
+/build/
 .settings
 .classpath
 .project
+
+#Intellij
+/out/
+.idea
+*.iml
+
