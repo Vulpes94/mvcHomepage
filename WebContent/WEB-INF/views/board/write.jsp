@@ -18,14 +18,11 @@
 	</h4>
 	
 	<div align="center">
-		<form class="form_style"  
-				action="${root}/board/writeOk.do"  
-				method="post" >
-				
-				<input type="hidden" name="boardNumber" value="${boardNumber}"/>
-				<input type="hidden" name="groupNumber" value="${groupNumber}"/>
-				<input type="hidden" name="sequenceNumber" value="${sequenceNumber}"/>
-				<input type="hidden" name="sequenceLevel" value="${sequenceLevel}"/>
+		<form class="form_style"  action="${root}/board/writeOk.do"  method="post" >	
+			<input type="hidden" name="boardNumber" value="${boardNumber}"/>
+			<input type="hidden" name="groupNumber" value="${groupNumber}"/>
+			<input type="hidden" name="sequenceNumber" value="${sequenceNumber}"/>
+			<input type="hidden" name="sequenceLevel" value="${sequenceLevel}"/>
 				
 				
 			<div style="width:598px; height:15px; border-width:2px; text-align:right; padding:15px 0px 0px 0px; border-bottom-width:0px;">
