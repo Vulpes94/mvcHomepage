@@ -160,6 +160,55 @@ public class BoardDao {
 		return count;
 	}
 	
+	public BoardDto read(int boardNumber) {
+		BoardDto boardDto = null;
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		try {
+			conn = ConnectionProvider.getConnection();
+			conn.setAutoCommit(false);
+			
+			String sqlUpdate = "UPDATE board SET read_count=read_count+1 WHERE board_number=?";
+			pstmt= conn.prepareStatement(sqlUpdate);
+			pstmt.setInt(1, boardNumber);
+			pstmt.executeUpdate();
+			JdbcUtil.close(pstmt);
+			
+			String sqlSelect= "SELECT * FROM board WHERE board_number=?";
+			pstmt = conn.prepareStatement(sqlSelect);
+			pstmt.setInt(1, boardNumber);
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				boardDto = new BoardDto();
+				boardDto.setBoardNumber(rs.getInt("board_number"));
+				boardDto.setWriter(rs.getString("writer"));
+				boardDto.setSubject(rs.getString("subject"));
+				boardDto.setEmail(rs.getString("email"));
+				boardDto.setContent(rs.getString("content"));
+				boardDto.setPassword(rs.getString("password"));
+				
+				boardDto.setWriteDate(new Date(rs.getTimestamp("write_date").getTime()));
+				boardDto.setReadCount(rs.getInt("read_count"));
+				boardDto.setGroupNumber(rs.getInt("group_number"));
+				boardDto.setSequenceNumber(rs.getInt("sequence_number"));
+				boardDto.setSequenceLevel(rs.getInt("sequence_level"));
+			}
+			
+			conn.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			JdbcUtil.rollback(conn);
+		}finally {
+			JdbcUtil.close(rs);
+			JdbcUtil.close(pstmt);
+			JdbcUtil.close(conn);
+		}
+		
+		return boardDto;
+	}
 }
 
 

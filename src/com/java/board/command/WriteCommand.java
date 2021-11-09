@@ -15,8 +15,12 @@ public class WriteCommand implements Command {
 		int sequenceNumber=0;	// 글순서
 		int sequenceLevel=0;	// 글레벨
 		
-		//if (request.getParameter("boardNumber") != null) {} 답글인 경우
-		
+		if (request.getParameter("boardNumber") != null) { // 답글인 경우
+			boardNumber = Integer.parseInt(request.getParameter("boardNumber"));
+			groupNumber = Integer.parseInt(request.getParameter("groupNumber"));
+			sequenceNumber = Integer.parseInt(request.getParameter("sequenceNumber"));
+			sequenceLevel = Integer.parseInt(request.getParameter("sequenceLevel"));
+		}
 		request.setAttribute("boardNumber", boardNumber);
 		request.setAttribute("groupNumber", groupNumber);
 		request.setAttribute("sequenceNumber", sequenceNumber);

@@ -22,7 +22,7 @@ public class ListCommand implements Command {
 		MyLogger.logger.info(MyLogger.logMsg + currentPage);
 		
 		// 한 페이지 당 게시물 1page 10개 / start 1, end 10
-		int boardSize = 2;
+		int boardSize = 10;
 		int startRow = (currentPage-1)* boardSize +1;
 		int endRow = currentPage*boardSize;
 		

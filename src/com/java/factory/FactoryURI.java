@@ -55,6 +55,7 @@ public class FactoryURI {
 		commandMap.put("/board/writeOk.do", new com.java.board.command.WriteOkCommand());
 		
 		commandMap.put("/board/list.do", new com.java.board.command.ListCommand());
+		commandMap.put("/board/read.do", new com.java.board.command.ReadCommand());
 		
 		return commandMap;
 	}
