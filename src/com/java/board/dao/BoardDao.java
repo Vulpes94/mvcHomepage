@@ -33,7 +33,7 @@ public class BoardDao {
       pstmt.setString(1, boardDto.getWriter());
       pstmt.setString(2, boardDto.getSubject());
       pstmt.setString(3, boardDto.getEmail());
-      pstmt.setString(4, boardDto.getContent());
+      pstmt.setString(4, boardDto.getContent().replace("\r\n", "<br/>"));
       pstmt.setString(5, boardDto.getPassword());
       pstmt.setInt(6, boardDto.getReadCount());
       pstmt.setInt(7, boardDto.getGroupNumber());
@@ -77,7 +77,19 @@ public class BoardDao {
         MyLogger.logger.info(MyLogger.logMsg + boardDto.getGroupNumber());
 
       } else { // 자식글 : 글순서, 글레벨 작업
+        sql =
+            "UPDATE board SET sequence_number=sequence_number+1 WHERE group_number=? AND sequence_number > ?";
+        conn = ConnectionProvider.getConnection();
+        pstmt = conn.prepareStatement(sql);
+        pstmt.setInt(1, groupNumber);
+        pstmt.setInt(2, sequenceNumber);
+        pstmt.executeUpdate();
 
+        sequenceNumber = sequenceNumber + 1;
+        sequenceLevel = sequenceLevel + 1;
+
+        boardDto.setSequenceNumber(sequenceNumber);
+        boardDto.setSequenceLevel(sequenceLevel);
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -210,4 +222,98 @@ public class BoardDao {
 
     return boardDto;
   }
+  
+  public int delete(int boardNumber,String password) {
+    int check = 0;
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    
+    try {
+      String sql = "DELETE FROM board WHERE board_number=? AND password=?";
+      conn = ConnectionProvider.getConnection();
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setInt(1, boardNumber);
+      pstmt.setString(2, password);
+      
+      check = pstmt.executeUpdate();
+    } catch (Exception e) { 
+      e.printStackTrace();
+    }finally {
+      JdbcUtil.close(pstmt);
+      JdbcUtil.close(conn);
+    }
+    
+    return check;
+  }
+  
+  
+  public BoardDto updateBoard(int boardNumber) {
+    BoardDto boardDto = null;
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    ResultSet rs = null;
+    
+    try {
+      String sql = "SELECT * FROM board WHERE board_number=?";
+      conn = ConnectionProvider.getConnection();
+      pstmt = conn.prepareStatement(sql);
+      pstmt.setInt(1, boardNumber);
+      rs = pstmt.executeQuery();
+      
+      if (rs.next()) {
+        boardDto = new BoardDto();
+        boardDto.setBoardNumber(rs.getInt("board_number"));
+        boardDto.setWriter(rs.getString("writer"));
+        boardDto.setSubject(rs.getString("subject"));
+        boardDto.setEmail(rs.getString("email"));
+        boardDto.setContent(rs.getString("content").replace("<br/>", "\r\n"));
+        boardDto.setPassword(rs.getString("password"));
+
+        boardDto.setWriteDate(new Date(rs.getTimestamp("write_date").getTime()));
+        boardDto.setReadCount(rs.getInt("read_count"));
+        boardDto.setGroupNumber(rs.getInt("group_number"));
+        boardDto.setSequenceNumber(rs.getInt("sequence_number"));
+        boardDto.setSequenceLevel(rs.getInt("sequence_level"));
+      }
+    } catch (Exception e) { 
+      e.printStackTrace();
+    }finally {
+      JdbcUtil.close(rs);
+      JdbcUtil.close(pstmt);
+      JdbcUtil.close(conn);
+    }
+    
+    return boardDto;
+  }
+  
+  public int update(BoardDto boardDto) {
+    int check = 0;
+    Connection conn = null;
+    PreparedStatement pstmt = null;
+    
+    try {
+      String sql = "UPDATE board SET email=?, subject=?, content=? WHERE board_number=?";
+      conn = ConnectionProvider.getConnection();
+      pstmt = conn.prepareStatement(sql);
+      
+      pstmt.setString(1, boardDto.getEmail());
+      pstmt.setString(2, boardDto.getSubject());
+      pstmt.setString(3, boardDto.getContent().replace("\r\n", "<br/>"));
+      pstmt.setInt(4, boardDto.getBoardNumber());
+      
+      check = pstmt.executeUpdate();
+      
+    } catch (Exception e) {
+      e.printStackTrace();
+    }finally {
+      JdbcUtil.close(pstmt);
+      JdbcUtil.close(conn);
+    }
+    
+    return check;
+  }
+  
+  
+  
+  
 }
