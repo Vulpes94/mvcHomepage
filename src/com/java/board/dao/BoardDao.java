@@ -25,8 +25,7 @@ public class BoardDao {
     writeNumber(conn, boardDto);
 
     try {
-      String sql =
-          "INSERT INTO board VALUES(board_board_number_seq.nextval,?,?,?,?,?, sysdate, ?,?,?,?)";
+      String sql = "INSERT INTO board VALUES(board_board_number_seq.nextval,?,?,?,?,?, sysdate, ?,?,?,?)";
 
       conn = ConnectionProvider.getConnection();
       pstmt = conn.prepareStatement(sql);
@@ -77,8 +76,7 @@ public class BoardDao {
         MyLogger.logger.info(MyLogger.logMsg + boardDto.getGroupNumber());
 
       } else { // 자식글 : 글순서, 글레벨 작업
-        sql =
-            "UPDATE board SET sequence_number=sequence_number+1 WHERE group_number=? AND sequence_number > ?";
+        sql = "UPDATE board SET sequence_number=sequence_number+1 WHERE group_number=? AND sequence_number > ?";
         conn = ConnectionProvider.getConnection();
         pstmt = conn.prepareStatement(sql);
         pstmt.setInt(1, groupNumber);
@@ -222,44 +220,44 @@ public class BoardDao {
 
     return boardDto;
   }
-  
-  public int delete(int boardNumber,String password) {
+
+  public int delete(int boardNumber, String password) {
     int check = 0;
     Connection conn = null;
     PreparedStatement pstmt = null;
-    
+
     try {
       String sql = "DELETE FROM board WHERE board_number=? AND password=?";
       conn = ConnectionProvider.getConnection();
       pstmt = conn.prepareStatement(sql);
       pstmt.setInt(1, boardNumber);
       pstmt.setString(2, password);
-      
+
       check = pstmt.executeUpdate();
-    } catch (Exception e) { 
+    } catch (Exception e) {
       e.printStackTrace();
-    }finally {
+    } finally {
       JdbcUtil.close(pstmt);
       JdbcUtil.close(conn);
     }
-    
+
     return check;
   }
-  
-  
+
+
   public BoardDto updateBoard(int boardNumber) {
     BoardDto boardDto = null;
     Connection conn = null;
     PreparedStatement pstmt = null;
     ResultSet rs = null;
-    
+
     try {
       String sql = "SELECT * FROM board WHERE board_number=?";
       conn = ConnectionProvider.getConnection();
       pstmt = conn.prepareStatement(sql);
       pstmt.setInt(1, boardNumber);
       rs = pstmt.executeQuery();
-      
+
       if (rs.next()) {
         boardDto = new BoardDto();
         boardDto.setBoardNumber(rs.getInt("board_number"));
@@ -275,45 +273,44 @@ public class BoardDao {
         boardDto.setSequenceNumber(rs.getInt("sequence_number"));
         boardDto.setSequenceLevel(rs.getInt("sequence_level"));
       }
-    } catch (Exception e) { 
+    } catch (Exception e) {
       e.printStackTrace();
-    }finally {
+    } finally {
       JdbcUtil.close(rs);
       JdbcUtil.close(pstmt);
       JdbcUtil.close(conn);
     }
-    
+
     return boardDto;
   }
-  
+
   public int update(BoardDto boardDto) {
     int check = 0;
     Connection conn = null;
     PreparedStatement pstmt = null;
-    
+
     try {
       String sql = "UPDATE board SET email=?, subject=?, content=? WHERE board_number=?";
       conn = ConnectionProvider.getConnection();
       pstmt = conn.prepareStatement(sql);
-      
+
       pstmt.setString(1, boardDto.getEmail());
       pstmt.setString(2, boardDto.getSubject());
       pstmt.setString(3, boardDto.getContent().replace("\r\n", "<br/>"));
       pstmt.setInt(4, boardDto.getBoardNumber());
-      
+
       check = pstmt.executeUpdate();
-      
+
     } catch (Exception e) {
       e.printStackTrace();
-    }finally {
+    } finally {
       JdbcUtil.close(pstmt);
       JdbcUtil.close(conn);
     }
-    
+
     return check;
   }
-  
-  
-  
-  
+
+
+
 }

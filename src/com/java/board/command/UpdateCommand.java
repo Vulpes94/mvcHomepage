@@ -14,13 +14,13 @@ public class UpdateCommand implements Command {
     int boardNumber = Integer.parseInt(request.getParameter("boardNumber"));
     int pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
     MyLogger.logger.info(MyLogger.logMsg + boardNumber + "," + pageNumber);
-    
+
     BoardDto boardDto = BoardDao.getInstance().updateBoard(boardNumber);
     MyLogger.logger.info(MyLogger.logMsg + boardDto.toString());
-    
+
     request.setAttribute("boardDto", boardDto);
     request.setAttribute("pageNumber", pageNumber);
-    
+
     return "/WEB-INF/views/board/update.jsp";
   }
 

@@ -1,6 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,14 +12,14 @@
 	<c:if test="${check > 0}">
 		<script type="text/javascript">
 			alert("삭제 되었습니다.");
-			location.href="${root}/guest/write.do";
+			location.href = "${root}/guest/write.do";
 		</script>
 	</c:if>
-	
+
 	<c:if test="${check == 0}">
 		<script type="text/javascript">
 			alert("삭제 되지 않았습니다.");
-			location.href="${root}/guest/write.do";
+			location.href = "${root}/guest/write.do";
 		</script>
 	</c:if>
 </body>

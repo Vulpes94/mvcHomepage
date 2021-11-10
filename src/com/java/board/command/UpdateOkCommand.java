@@ -11,10 +11,10 @@ public class UpdateOkCommand implements Command {
 
   @Override
   public String proRequest(HttpServletRequest request, HttpServletResponse response) throws Throwable {
-    
+
     request.setCharacterEncoding("utf-8");
     int pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
-    
+
     BoardDto boardDto = new BoardDto();
     boardDto.setBoardNumber(Integer.parseInt(request.getParameter("boardNumber")));
     boardDto.setSubject(request.getParameter("subject"));
@@ -22,11 +22,11 @@ public class UpdateOkCommand implements Command {
     boardDto.setContent(request.getParameter("content"));
     boardDto.setPassword(request.getParameter("password"));
     MyLogger.logger.info(MyLogger.logMsg + boardDto.toString());
-    MyLogger.logger.info(MyLogger.logMsg + "pageNumber:"+ pageNumber);
-    
+    MyLogger.logger.info(MyLogger.logMsg + "pageNumber:" + pageNumber);
+
     int check = BoardDao.getInstance().update(boardDto);
     MyLogger.logger.info(MyLogger.logMsg + check);
-    
+
     request.setAttribute("check", check);
     request.setAttribute("pageNumber", pageNumber);
     return "/WEB-INF/views/board/updateOk.jsp";
