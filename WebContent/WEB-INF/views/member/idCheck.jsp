@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
@@ -15,7 +14,8 @@
 			이미사용중인 아이디 입니다.
 
 			<form action="${root}/member/idCheck.do" method="get">
-				<input type="text" name="id" /> <input type="submit" value="확인" />
+				<input type="text" name="id" />
+				<input type="submit" value="확인" />
 			</form>
 		</div>
 	</c:if>
