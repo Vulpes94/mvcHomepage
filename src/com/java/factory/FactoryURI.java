@@ -60,6 +60,19 @@ public class FactoryURI {
 
     commandMap.put("/board/update.do", new com.java.board.command.UpdateCommand());
     commandMap.put("/board/updateOk.do", new com.java.board.command.UpdateOkCommand());
+
+    // 파일게시판
+    commandMap.put("/fileboard/write.do", new com.java.fileboard.command.WriteCommand());
+    commandMap.put("/fileboard/writeOk.do", new com.java.fileboard.command.WriteOkCommand());
+
+    commandMap.put("/fileboard/list.do", new com.java.fileboard.command.ListCommand());
+    commandMap.put("/fileboard/read.do", new com.java.fileboard.command.ReadCommand());
+    commandMap.put("/fileboard/delete.do", new com.java.fileboard.command.DeleteCommand());
+    commandMap.put("/fileboard/deleteOk.do", new com.java.fileboard.command.DeleteOkCommand());
+
+    commandMap.put("/fileboard/update.do", new com.java.fileboard.command.UpdateCommand());
+    commandMap.put("/fileboard/updateOk.do", new com.java.fileboard.command.UpdateOkCommand());
+
     return commandMap;
   }
 }

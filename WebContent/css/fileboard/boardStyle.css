@@ -1,0 +1,46 @@
+@CHARSET "UTF-8";
+
+body{
+   font-size:12px;
+   font-family:Gulim, dotum, sans-serif;	
+}
+
+a:link {
+	text-decoration:none;
+	color:blue
+}
+
+a:visited {
+	text-decoration:none;
+	color:red
+}
+
+a:hover {
+	text-decoration:underline;
+	color:black
+}
+
+.form_style{
+	width:620px; height:420px;
+	margin:0px 0px 0px 100px;
+}
+
+.line{	
+	width:610px;height:30px;float:left;
+	border-style:solid;border-width:0px;border-color:#000000;
+	margin:0px 0px 0px 0px;padding:0px 0px 0px 0px;text-align:left; 
+}
+
+.title{
+	width:96px;height:12px;float:left;
+	border-style:solid;border-width:2px;border-color:#000000;
+	border-right-width:0px;border-bottom-width:0px;
+    padding:8px 0px 8px 2px;text-align:center; 
+}
+
+span{
+	width:496px;height:24px;float:left;
+	border-style:solid;border-width:2px;
+	border-color:#000000;border-bottom-width:0px;
+	padding:2px 0px 2px 2px;
+}
