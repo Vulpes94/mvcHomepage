@@ -25,7 +25,9 @@ public class BoardDao {
     writeNumber(conn, boardDto);
 
     try {
-      String sql = "INSERT INTO board VALUES(board_board_number_seq.nextval,?,?,?,?,?, sysdate, ?,?,?,?)";
+      String sql = "INSERT INTO board(board_number,writer,subject,email,content,"
+          + "password,write_date,read_count,group_number,sequence_number,sequence_level)"
+          + " VALUES(board_board_number_seq.nextval,?,?,?,?,?, sysdate, ?,?,?,?)";
 
       conn = ConnectionProvider.getConnection();
       pstmt = conn.prepareStatement(sql);
