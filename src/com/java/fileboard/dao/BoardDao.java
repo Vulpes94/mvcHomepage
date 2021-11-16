@@ -25,21 +25,44 @@ public class BoardDao {
     writeNumber(conn, boardDto);
 
     try {
-      String sql = "INSERT INTO board(board_number,writer,subject,email,content,"
-          + "password,write_date,read_count,group_number,sequence_number,sequence_level)"
-          + " VALUES(board_board_number_seq.nextval,?,?,?,?,?, sysdate, ?,?,?,?)";
+      if (boardDto.getFileSize()==0) {
+        String sql = "INSERT INTO board(board_number,writer,subject,email,content,"
+            + "password,write_date,read_count,group_number,sequence_number,sequence_level)"
+            + " VALUES(board_board_number_seq.nextval,?,?,?,?,?, sysdate, ?,?,?,?)";
 
-      conn = ConnectionProvider.getConnection();
-      pstmt = conn.prepareStatement(sql);
-      pstmt.setString(1, boardDto.getWriter());
-      pstmt.setString(2, boardDto.getSubject());
-      pstmt.setString(3, boardDto.getEmail());
-      pstmt.setString(4, boardDto.getContent().replace("\r\n", "<br/>"));
-      pstmt.setString(5, boardDto.getPassword());
-      pstmt.setInt(6, boardDto.getReadCount());
-      pstmt.setInt(7, boardDto.getGroupNumber());
-      pstmt.setInt(8, boardDto.getSequenceNumber());
-      pstmt.setInt(9, boardDto.getSequenceLevel());
+        conn = ConnectionProvider.getConnection();
+        pstmt = conn.prepareStatement(sql);
+        pstmt.setString(1, boardDto.getWriter());
+        pstmt.setString(2, boardDto.getSubject());
+        pstmt.setString(3, boardDto.getEmail());
+        pstmt.setString(4, boardDto.getContent().replace("\r\n", "<br/>"));
+        pstmt.setString(5, boardDto.getPassword());
+        pstmt.setInt(6, boardDto.getReadCount());
+        pstmt.setInt(7, boardDto.getGroupNumber());
+        pstmt.setInt(8, boardDto.getSequenceNumber());
+        pstmt.setInt(9, boardDto.getSequenceLevel());
+      }else {
+        String sql = "INSERT INTO board(board_number,writer,subject,email,content,"
+            + "password,write_date,read_count,group_number,sequence_number,sequence_level,file_name,path,file_size)"
+            + " VALUES(board_board_number_seq.nextval,?,?,?,?,?, sysdate, ?,?,?,?,?,?,?)";
+
+        conn = ConnectionProvider.getConnection();
+        pstmt = conn.prepareStatement(sql);
+        pstmt.setString(1, boardDto.getWriter());
+        pstmt.setString(2, boardDto.getSubject());
+        pstmt.setString(3, boardDto.getEmail());
+        pstmt.setString(4, boardDto.getContent().replace("\r\n", "<br/>"));
+        pstmt.setString(5, boardDto.getPassword());
+        pstmt.setInt(6, boardDto.getReadCount());
+        pstmt.setInt(7, boardDto.getGroupNumber());
+        pstmt.setInt(8, boardDto.getSequenceNumber());
+        pstmt.setInt(9, boardDto.getSequenceLevel());
+        
+        pstmt.setString(10, boardDto.getFileName());
+        pstmt.setString(11, boardDto.getPath());
+        pstmt.setLong(12, boardDto.getFileSize());
+      }
+    
 
       check = pstmt.executeUpdate();
     } catch (Exception e) {
@@ -208,6 +231,10 @@ public class BoardDao {
         boardDto.setGroupNumber(rs.getInt("group_number"));
         boardDto.setSequenceNumber(rs.getInt("sequence_number"));
         boardDto.setSequenceLevel(rs.getInt("sequence_level"));
+      
+        boardDto.setFileName(rs.getString("file_name"));
+        boardDto.setPath(rs.getString("path"));
+        boardDto.setFileSize(rs.getLong("file_size"));
       }
 
       conn.commit();
@@ -274,6 +301,10 @@ public class BoardDao {
         boardDto.setGroupNumber(rs.getInt("group_number"));
         boardDto.setSequenceNumber(rs.getInt("sequence_number"));
         boardDto.setSequenceLevel(rs.getInt("sequence_level"));
+      
+        boardDto.setFileName(rs.getString("file_name"));
+        boardDto.setPath(rs.getString("path"));
+        boardDto.setFileSize(rs.getLong("file_size"));
       }
     } catch (Exception e) {
       e.printStackTrace();

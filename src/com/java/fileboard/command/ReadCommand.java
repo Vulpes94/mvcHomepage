@@ -21,7 +21,12 @@ public class ReadCommand implements Command {
 
     request.setAttribute("boardDto", boardDto);
     request.setAttribute("pageNumber", pageNumber);
-
+    
+    if (boardDto.getFileName() != null) {
+      int index = boardDto.getFileName().indexOf('_') + 1;
+      boardDto.setFileName(boardDto.getFileName().substring(index)); 
+    }
+    
     return "/WEB-INF/views/fileboard/read.jsp";
   }
 

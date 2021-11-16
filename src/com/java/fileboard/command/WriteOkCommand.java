@@ -1,9 +1,7 @@
 package com.java.fileboard.command;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -34,53 +32,26 @@ public class WriteOkCommand implements Command {
     Iterator<FileItem> iter = list.iterator();
 
     BoardDto boardDto = new BoardDto();
+    HashMap<String, String> dataMap = new HashMap<String, String>();
 
     while (iter.hasNext()) {
       FileItem fileItem = iter.next();
 
       // txt, binary
       if (fileItem.isFormField()) { // txt
-        if (fileItem.getFieldName().equals("boardNumber")) {
-          boardDto.setBoardNumber(Integer.parseInt(fileItem.getString()));
-        }
+        String name = fileItem.getFieldName();
+        String value = fileItem.getString("utf-8");
+        MyLogger.logger.info(MyLogger.logMsg + name + "," + value);
 
-        if (fileItem.getFieldName().equals("groupNumber")) {
-          boardDto.setGroupNumber(Integer.parseInt(fileItem.getString()));
-        }
+        dataMap.put(name, value);
 
-        if (fileItem.getFieldName().equals("sequenceNumber")) {
-          boardDto.setSequenceNumber(Integer.parseInt(fileItem.getString()));
-        }
-
-        if (fileItem.getFieldName().equals("sequenceLevel")) {
-          boardDto.setSequenceLevel(Integer.parseInt(fileItem.getString()));
-        }
-
-        if (fileItem.getFieldName().equals("writer")) {
-          boardDto.setWriter(fileItem.getString("utf-8"));
-        }
-
-        if (fileItem.getFieldName().equals("subject")) {
-          boardDto.setSubject(fileItem.getString("utf-8"));
-        }
-
-        if (fileItem.getFieldName().equals("email")) {
-          boardDto.setEmail(fileItem.getString("utf-8"));
-        }
-
-        if (fileItem.getFieldName().equals("content")) {
-          boardDto.setContent(fileItem.getString("utf-8"));
-        }
-        if (fileItem.getFieldName().equals("password")) {
-          boardDto.setPassword(fileItem.getString("utf-8"));
-        }
       } else { // binary
         if (fileItem.getFieldName().equals("file")) {
           // 파일명, 파일사이즈, 파일경로(상대경로,절대경로)
           String fileName = fileItem.getName();
           if (fileName == null || fileName.equals(""))
             continue;
-          String timeFileName = Long.toString(System.currentTimeMillis()) + "-" + fileName;
+          String timeFileName = Long.toString(System.currentTimeMillis()) + "_" + fileName;
 
           upload.setFileSizeMax(1024 * 1024 * 10); // 10MB
           long size = fileItem.getSize(); // 파일사이즈
@@ -89,44 +60,26 @@ public class WriteOkCommand implements Command {
           MyLogger.logger.info(MyLogger.logMsg + fileName + "," + size + "," + dir);
 
           File file = new File(dir, timeFileName);
-
-          BufferedInputStream fis = null;
-          BufferedOutputStream fos = null;
-          try {
-            fis = new BufferedInputStream(fileItem.getInputStream());
-            fos = new BufferedOutputStream(new FileOutputStream(file));
-
-            while (true) {
-              int data = fis.read();
-              if (data == -1)
-                break;
-              fos.write(data);
-            }
-
-            fos.flush();
-
-          } catch (Exception e) {
-            e.printStackTrace();
-          } finally {
-            if (fis != null)
-              fis.close();
-            if (fos != null)
-              fos.close();
+          if (!file.exists()) {
+            fileItem.write(file);
           }
 
           boardDto.setFileName(timeFileName);
           boardDto.setPath(file.getAbsolutePath());
           boardDto.setFileSize(size);
-
-
         }
       }
     }
 
+    boardDto.setDataMap(dataMap);
+    boardDto.setReadCount(0);
     MyLogger.logger.info(MyLogger.logMsg + boardDto.toString());
 
-    // return "/WEB-INF/views/fileboard/writeOk.jsp";
-    return null;
+    int check = BoardDao.getInstance().insert(boardDto);
+    MyLogger.logger.info(MyLogger.logMsg + check);
+
+    request.setAttribute("check", check);
+    return "/WEB-INF/views/fileboard/writeOk.jsp";
   }
 
 }

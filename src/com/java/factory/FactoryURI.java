@@ -73,6 +73,8 @@ public class FactoryURI {
     commandMap.put("/fileboard/update.do", new com.java.fileboard.command.UpdateCommand());
     commandMap.put("/fileboard/updateOk.do", new com.java.fileboard.command.UpdateOkCommand());
 
+    commandMap.put("/fileboard/downLoad.do", new com.java.fileboard.command.DownLoadCommand());
+    
     return commandMap;
   }
 }

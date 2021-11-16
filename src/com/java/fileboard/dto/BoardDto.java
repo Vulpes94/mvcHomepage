@@ -1,24 +1,28 @@
 package com.java.fileboard.dto;
 
 import java.util.Date;
+import java.util.HashMap;
 
 public class BoardDto {
-  private int boardNumber;    // 글번호
-  private String writer;      // 작성자
-  private String subject;     // 제목
-  private String email;       // 이메일
-  private String content;     // 글내용
-  private String password;    // 비밀번호
+  private int boardNumber; // 글번호
+  private String writer; // 작성자
+  private String subject; // 제목
+  private String email; // 이메일
+  private String content; // 글내용
+  private String password; // 비밀번호
 
-  private Date writeDate;     // 작성일
-  private int readCount;      // 조회수
-  private int groupNumber;    // 그룹번호
+  private Date writeDate; // 작성일
+  private int readCount; // 조회수
+  private int groupNumber; // 그룹번호
   private int sequenceNumber; // 글순서
-  private int sequenceLevel;  // 글레벨
+  private int sequenceLevel; // 글레벨
 
-  private String fileName;    // 파일이름
-  private String path;        // 파일명
-  private long fileSize;      // 파일사이즈
+  private String fileName; // 파일이름
+  private String path; // 파일명
+  private long fileSize; // 파일사이즈
+
+  private HashMap<String, String> dataMap;
+
 
   public int getBoardNumber() {
     return boardNumber;
@@ -132,12 +136,31 @@ public class BoardDto {
     this.fileSize = fileSize;
   }
 
+  public HashMap<String, String> getDataMap() {
+    return dataMap;
+  }
+
+  public void setDataMap(HashMap<String, String> dataMap) {
+    this.dataMap = dataMap;
+    this.boardNumber = Integer.parseInt((String) this.dataMap.get("boardNumber"));
+    this.groupNumber = Integer.parseInt((String) this.dataMap.get("groupNumber"));
+    this.sequenceNumber = Integer.parseInt((String) this.dataMap.get("sequenceNumber"));
+    this.sequenceLevel = Integer.parseInt((String) this.dataMap.get("sequenceLevel"));
+
+    this.writer = (String) this.dataMap.get("writer");
+    this.subject = (String) this.dataMap.get("subject");
+    this.email = (String) this.dataMap.get("email");
+    this.content = (String) this.dataMap.get("content");
+    this.password = (String) this.dataMap.get("password");
+
+  }
+
   @Override
   public String toString() {
     return "BoardDto [boardNumber=" + boardNumber + ", writer=" + writer + ", subject=" + subject + ", email=" + email
         + ", content=" + content + ", password=" + password + ", writeDate=" + writeDate + ", readCount=" + readCount
         + ", groupNumber=" + groupNumber + ", sequenceNumber=" + sequenceNumber + ", sequenceLevel=" + sequenceLevel
-        + ", fileName=" + fileName + ", path=" + path + ", fileSize=" + fileSize + "]";
+        + ", fileName=" + fileName + ", path=" + path + ", fileSize=" + fileSize + ", dataMap=" + dataMap + "]";
   }
 
 }

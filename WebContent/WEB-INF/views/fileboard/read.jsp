@@ -60,7 +60,18 @@
 			<td align="center" height="500" width="200">글내용</td>
 			<td valign="top" height="500" colspan="3">${boardDto.content}</td>
 		</tr>
-		
+			
+			<c:if test="${boardDto.fileName != null}">
+				<tr>
+					<td align="center" height="30" width="200">파일명</td>
+					<td colspan="3">
+						<a href="${root}/fileboard/downLoad.do?boardNumber=${boardDto.boardNumber}">
+							${boardDto.fileName}
+						</a>	
+					</td>
+				</tr>
+			</c:if>
+			
 		<tr>
 			<td height="30" colspan="4" align="center">
 				<input type="button" value="글수정" onclick="upFun('${root}','${boardDto.boardNumber}','${pageNumber}')"/>
