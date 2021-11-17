@@ -3,116 +3,69 @@ package com.java.member.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import com.java.database.ConnectionProvider;
 import com.java.database.JdbcUtil;
 import com.java.member.dto.MemberDto;
 import com.java.member.dto.ZipcodeDto;
+import com.java.myBatis.SqlManager;
 
 public class MemberDao {
   private static MemberDao instance = new MemberDao();
+  private static SqlSessionFactory sqlSessionFactory = SqlManager.getInstance();
+  private SqlSession session;
 
   public static MemberDao getInstance() {
     return instance;
   }
 
   public int insert(MemberDto memberDto) {
-    Connection conn = null;
-    PreparedStatement pstmt = null;
     int check = 0;
 
     try {
-      String sql = "insert into member values(member_num_seq.nextval,?,?,?,?,?,?,?,?,?,?,?,?,sysdate)";
-      conn = ConnectionProvider.getConnection();
-      pstmt = conn.prepareStatement(sql);
-
-      pstmt.setString(1, memberDto.getId());
-      pstmt.setString(2, memberDto.getPassword());
-      pstmt.setString(3, memberDto.getName());
-      pstmt.setString(4, memberDto.getJumin1());
-      pstmt.setString(5, memberDto.getJumin2());
-
-      pstmt.setString(6, memberDto.getEmail());
-      pstmt.setString(7, memberDto.getZipcode());
-      pstmt.setString(8, memberDto.getAddress());
-      pstmt.setString(9, memberDto.getJob());
-      pstmt.setString(10, memberDto.getMailing());
-
-      pstmt.setString(11, memberDto.getInterest());
-      pstmt.setString(12, memberDto.getMemberLevel());
-
-      check = pstmt.executeUpdate();
+      session = sqlSessionFactory.openSession();
+      check = session.insert("memberInsert", memberDto);
+      session.commit();
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
-      JdbcUtil.close(conn);
-      JdbcUtil.close(pstmt);
+      session.close();
     }
-
 
     return check;
   }
 
 
   public int idCheck(String id) {
-    Connection conn = null;
-    PreparedStatement pstmt = null;
-    ResultSet rs = null;
     int check = 0;
 
     try {
-      String sql = "SELECT id FROM member WHERE id=?";
-      conn = ConnectionProvider.getConnection();
-      pstmt = conn.prepareStatement(sql);
-      pstmt.setString(1, id);
-      rs = pstmt.executeQuery();
-
-      if (rs.next())
+      session = sqlSessionFactory.openSession();
+      String checkID = session.selectOne("memberIdCheck", id);
+      if (checkID != null)
         check = 1;
-
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
-      JdbcUtil.close(rs);
-      JdbcUtil.close(pstmt);
-      JdbcUtil.close(conn);
+      session.close();
     }
 
     return check;
   }
 
-  public ArrayList<ZipcodeDto> zipcodeRead(String checkDong) {
-    Connection conn = null;
-    PreparedStatement pstmt = null;
-    ResultSet rs = null;
-    ArrayList<ZipcodeDto> zipList = null;
+  public List<ZipcodeDto> zipcodeRead(String dong) {
+    List<ZipcodeDto> zipList = null;
 
     try {
-      String sql = "SELECT * FROM zipcode WHERE dong=?";
-      conn = ConnectionProvider.getConnection();
-      pstmt = conn.prepareStatement(sql);
-      pstmt.setString(1, checkDong);
-      rs = pstmt.executeQuery();
-
-      zipList = new ArrayList<ZipcodeDto>();
-      while (rs.next()) {
-        ZipcodeDto zipcodeDto = new ZipcodeDto();
-        zipcodeDto.setZipcode(rs.getString("zipcode"));
-        zipcodeDto.setSido(rs.getString("sido"));
-        zipcodeDto.setGugun(rs.getString("gugun"));
-        zipcodeDto.setDong(rs.getString("dong"));
-        zipcodeDto.setRi(rs.getString("ri"));
-        zipcodeDto.setBunji(rs.getString("bunji"));
-        zipList.add(zipcodeDto);
-
-      }
+      session = sqlSessionFactory.openSession();
+      zipList = session.selectList("memberZipcode", dong);
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
-      JdbcUtil.close(rs);
-      JdbcUtil.close(pstmt);
-      JdbcUtil.close(conn);
+      session.close();
     }
 
     return zipList;

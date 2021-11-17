@@ -1,6 +1,7 @@
 package com.java.member.command;
 
 import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.java.command.Command;
@@ -19,7 +20,7 @@ public class ZipcodeCommand implements Command {
     if (checkDong != null) {
       MyLogger.logger.info(MyLogger.logMsg + checkDong);
 
-      ArrayList<ZipcodeDto> zipcodeList = MemberDao.getInstance().zipcodeRead(checkDong);
+      List<ZipcodeDto> zipcodeList = MemberDao.getInstance().zipcodeRead(checkDong);
 
       MyLogger.logger.info(MyLogger.logMsg + zipcodeList.size());
 
