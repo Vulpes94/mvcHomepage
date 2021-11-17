@@ -1,0 +1,12 @@
+https://swjeong.tistory.com/216
+--service / serviceImpl 의문
+
+https://elvis-note.tistory.com/entry/9-Spring-MVC-2-Service%EC%99%80-ServiceImpl
+--service(interface) 필요 이유
+
+https://iotsw.tistory.com/63
+--구현된 코드 예시
+
+
+
+

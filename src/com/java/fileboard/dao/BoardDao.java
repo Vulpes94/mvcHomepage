@@ -9,6 +9,7 @@ import com.java.fileboard.dto.BoardDto;
 import com.java.database.ConnectionProvider;
 import com.java.database.JdbcUtil;
 import com.java.logger.MyLogger;
+import oracle.net.aso.p;
 
 public class BoardDao {
   private static BoardDao instance = new BoardDao();
@@ -323,15 +324,28 @@ public class BoardDao {
     PreparedStatement pstmt = null;
 
     try {
-      String sql = "UPDATE board SET email=?, subject=?, content=? WHERE board_number=?";
       conn = ConnectionProvider.getConnection();
-      pstmt = conn.prepareStatement(sql);
+      
+      if (boardDto.getFileName() == null) {
+        String sql = "UPDATE board SET email=?, subject=?, content=? WHERE board_number=?";
+        pstmt = conn.prepareStatement(sql);
+        pstmt.setString(1, boardDto.getEmail());
+        pstmt.setString(2, boardDto.getSubject());
+        pstmt.setString(3, boardDto.getContent().replace("\r\n", "<br/>"));
+        pstmt.setInt(4, boardDto.getBoardNumber());
 
-      pstmt.setString(1, boardDto.getEmail());
-      pstmt.setString(2, boardDto.getSubject());
-      pstmt.setString(3, boardDto.getContent().replace("\r\n", "<br/>"));
-      pstmt.setInt(4, boardDto.getBoardNumber());
-
+      }else {
+        String sql = "UPDATE board SET email=?, subject=?, content=?, file_name=?, path=?, file_size=? WHERE board_number=?";
+        pstmt = conn.prepareStatement(sql);
+        pstmt.setString(1, boardDto.getEmail());
+        pstmt.setString(2, boardDto.getSubject());
+        pstmt.setString(3, boardDto.getContent().replace("\r\n", "<br/>"));
+        pstmt.setString(4, boardDto.getFileName());
+        pstmt.setString(5, boardDto.getPath());
+        pstmt.setLong(6, boardDto.getFileSize());
+        pstmt.setInt(7, boardDto.getBoardNumber());
+      }
+      
       check = pstmt.executeUpdate();
 
     } catch (Exception e) {

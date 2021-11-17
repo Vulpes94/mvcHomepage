@@ -10,7 +10,10 @@
 </head>
 <body>
 	<div align="center">
-		<form class="form_style" action="${root}/fileboard/updateOk.do" method="post">
+		<form class="form_style" 
+					action="${root}/fileboard/updateOk.do" 
+					method="post"
+					enctype="multipart/form-data">
 			<input type="hidden" name="boardNumber" value="${boardDto.boardNumber}" />
 			<input type="hidden" name="pageNumber" value="${pageNumber}" />
 
@@ -52,7 +55,27 @@
 					<input type="password" name="password" value="${boardDto.password}" />
 				</span>
 			</div>
-
+			
+			<c:if test="${boardDto.fileName != null}">
+				<div class="line">
+					<label class="title">파일명</label>
+					<span class="content">
+						${boardDto.fileName}
+						<input type="file" name="file" size="40" />
+					</span>
+				</div>
+			</c:if>
+			
+			<c:if test="${boardDto.fileName == null}">
+				<div class="line">
+					<label class="title">파일명</label>
+					<span class="content">
+						<input type="file" name="file" size="40" />
+					</span>
+				</div>
+			</c:if>
+			
+			
 			<div class="line" style="width: 598px; border-width: 2px; text-align: center;">
 				<input type="submit" value="글수정" />
 				<input type="reset" value="다시작성" />

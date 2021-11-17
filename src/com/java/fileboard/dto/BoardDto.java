@@ -143,9 +143,13 @@ public class BoardDto {
   public void setDataMap(HashMap<String, String> dataMap) {
     this.dataMap = dataMap;
     this.boardNumber = Integer.parseInt((String) this.dataMap.get("boardNumber"));
-    this.groupNumber = Integer.parseInt((String) this.dataMap.get("groupNumber"));
-    this.sequenceNumber = Integer.parseInt((String) this.dataMap.get("sequenceNumber"));
-    this.sequenceLevel = Integer.parseInt((String) this.dataMap.get("sequenceLevel"));
+
+    if (this.dataMap.get("groupNumber") != null) {
+      this.groupNumber = Integer.parseInt((String) this.dataMap.get("groupNumber"));
+      this.sequenceNumber = Integer.parseInt((String) this.dataMap.get("sequenceNumber"));
+      this.sequenceLevel = Integer.parseInt((String) this.dataMap.get("sequenceLevel"));
+    }
+
 
     this.writer = (String) this.dataMap.get("writer");
     this.subject = (String) this.dataMap.get("subject");

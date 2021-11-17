@@ -16,6 +16,12 @@ public class UpdateCommand implements Command {
     MyLogger.logger.info(MyLogger.logMsg + boardNumber + "," + pageNumber);
 
     BoardDto boardDto = BoardDao.getInstance().updateBoard(boardNumber);
+    
+    if (boardDto.getFileName() != null) {
+      int index = boardDto.getFileName().indexOf("_")+1;
+      boardDto.setFileName(boardDto.getFileName().substring(index));
+    }
+    
     MyLogger.logger.info(MyLogger.logMsg + boardDto.toString());
 
     request.setAttribute("boardDto", boardDto);
