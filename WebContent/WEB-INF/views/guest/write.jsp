@@ -50,7 +50,7 @@
 					<a href="javascript:deleteCheck('${guestDto.num}','${root}')">삭제</a>
 				</div>
 				
-				<div class="disp-content">${guestDto.message}</div>
+				<div class="disp-content" style="white-space: pre;">${guestDto.message}</div>
 			</div>
 		</c:forEach>
 	</c:if>
