@@ -5,6 +5,25 @@
 
 <mapper namespace="com.java.member.dao.mapper.MemberMapper">
 
+		<resultMap type="com.java.member.dto.MemberDto" id="memberDto">
+		<result column="num" property="num"/>
+		<result column="id" property="id"/>
+		<result column="password" property="password"/>
+		<result column="name" property="name"/>
+		<result column="jumin1" property="jumin1"/>
+		<result column="jumin2" property="jumin2"/>
+		
+		<result column="email" property="email"/>
+		<result column="zipcode" property="zipcode"/>
+		<result column="address" property="address"/>
+		
+		<result column="job" property="job"/>
+		<result column="mailing" property="mailing"/>
+		<result column="interest" property="interest"/>
+		<result column="member_level" property="memberLevel"/>
+		<result column="register_date" property="registerDate"/>
+	</resultMap>
+	
 	<!-- resultType="int" -->
 	<insert id="memberInsert" parameterType="com.java.member.dto.MemberDto">
 		INSERT INTO member
@@ -31,4 +50,28 @@
 	<select id="memberZipcode" parameterType="String" resultType="com.java.member.dto.ZipcodeDto">
 		SELECT * FROM zipcode WHERE dong=#{dong}
 	</select>
+	
+	<select id="loginCheck" parameterType="java.util.HashMap" resultType="String">
+		SELECT member_level FROM member WHERE id=#{id} AND password=#{password}
+	</select>
+	
+	<delete id="memberDelete" parameterType="java.util.HashMap">
+		DELETE FROM member WHERE id=#{id} AND password=#{password}
+	</delete>
+	
+	<select id="memberSelect" parameterType="String" resultMap="memberDto">
+		SELECT * FROM member WHERE id=#{id}
+	</select>
+	
+	<update id="memberUpdate" parameterType="com.java.member.dto.MemberDto">
+		UPDATE member SET password=#{password},email=#{email},zipcode=#{zipcode},
+		address=#{address},job=#{job},mailing=#{mailing},interest=#{interest} WHERE num=#{num}
+	</update>
 </mapper>
+
+
+
+
+
+
+
