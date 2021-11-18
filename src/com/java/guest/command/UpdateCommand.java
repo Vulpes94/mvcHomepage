@@ -16,6 +16,7 @@ public class UpdateCommand implements Command {
     MyLogger.logger.info(MyLogger.logMsg + num);
 
     GuestDto guestDto = GuestDao.getInstance().upSelect(num);
+    guestDto.setMessage(guestDto.getMessage().replace("<br/>", "\r\n"));
     MyLogger.logger.info(MyLogger.logMsg + guestDto.toString());
 
     request.setAttribute("guestDto", guestDto);

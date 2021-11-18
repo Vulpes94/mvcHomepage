@@ -16,7 +16,7 @@ public class WriteOkCommand implements Command {
     GuestDto guestDto = new GuestDto();
     guestDto.setName(request.getParameter("name"));
     guestDto.setPassword(request.getParameter("password"));
-    guestDto.setMessage(request.getParameter("message"));
+    guestDto.setMessage(request.getParameter("message").replace("\r\n", "<br/>"));
     MyLogger.logger.info(MyLogger.logMsg + guestDto.toString());
 
     int check = GuestDao.getInstance().insert(guestDto);
