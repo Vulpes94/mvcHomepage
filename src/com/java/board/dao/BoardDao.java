@@ -5,13 +5,19 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import com.java.board.dto.BoardDto;
 import com.java.database.ConnectionProvider;
 import com.java.database.JdbcUtil;
 import com.java.logger.MyLogger;
+import com.java.myBatis.SqlManager;
 
 public class BoardDao {
   private static BoardDao instance = new BoardDao();
+  private static SqlSessionFactory sqlSessionFactory = SqlManager.getInstance();
+  private SqlSession session;
 
   public static BoardDao getInstance() {
     return instance;
@@ -62,28 +68,23 @@ public class BoardDao {
     int sequenceNumber = boardDto.getSequenceNumber();
     int sequenceLevel = boardDto.getSequenceLevel();
 
-    PreparedStatement pstmt = null;
-    ResultSet rs = null;
-    String sql = null;
-
     try {
       if (boardNumber == 0) { // ROOT(부모글) : 그룹번호 작업
-        sql = "SELECT MAX(group_number) FROM board";
-        conn = ConnectionProvider.getConnection();
-        pstmt = conn.prepareStatement(sql);
-        rs = pstmt.executeQuery();
+        session = sqlSessionFactory.openSession();
+        int max = session.selectOne("boardGroupNumberMax");
 
-        if (rs.next())
-          boardDto.setGroupNumber(rs.getInt(1) + 1);
-        MyLogger.logger.info(MyLogger.logMsg + boardDto.getGroupNumber());
-
+        if (max != 0) {
+          max = max + 1;
+          boardDto.setGroupNumber(max);
+        }
       } else { // 자식글 : 글순서, 글레벨 작업
-        sql = "UPDATE board SET sequence_number=sequence_number+1 WHERE group_number=? AND sequence_number > ?";
-        conn = ConnectionProvider.getConnection();
-        pstmt = conn.prepareStatement(sql);
-        pstmt.setInt(1, groupNumber);
-        pstmt.setInt(2, sequenceNumber);
-        pstmt.executeUpdate();
+        HashMap<String, Integer> hMap = new HashMap<String, Integer>();
+        hMap.put("groupNumber", groupNumber);
+        hMap.put("sequenceNumber", sequenceNumber);
+
+        session = sqlSessionFactory.openSession();
+        session.update("boardWriterNumber", hMap);
+        session.commit();
 
         sequenceNumber = sequenceNumber + 1;
         sequenceLevel = sequenceLevel + 1;
@@ -94,9 +95,7 @@ public class BoardDao {
     } catch (Exception e) {
       e.printStackTrace();
     } finally {
-      JdbcUtil.close(rs);
-      JdbcUtil.close(pstmt);
-      JdbcUtil.close(conn);
+      session.close();
     }
   }
 

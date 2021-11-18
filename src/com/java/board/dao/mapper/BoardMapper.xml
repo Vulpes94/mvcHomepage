@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.java.board.dao.mapper.BoardMapper">
+	<select id="boardGroupNumberMax" resultType="int">
+		SELECT NVL(MAX(group_number),0) FROM board
+	</select>
+
+	<update id="boardWriterNumber" parameterType="java.util.HashMap">
+	<![CDATA[
+		UPDATE board SET sequence_number=sequence_number+1 
+		WHERE group_number=#{groupNumber} AND sequence_number > #{sequenceNumber}
+	]]>
+	</update>
+</mapper>    
+    
