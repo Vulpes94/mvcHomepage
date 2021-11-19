@@ -19,5 +19,6 @@
 		<mapper resource="com/java/member/dao/mapper/MemberMapper.xml" />
 		<mapper resource="com/java/guest/dao/mapper/GuestMapper.xml"/>
 		<mapper resource="com/java/board/dao/mapper/BoardMapper.xml"/>
+		<mapper resource="com/java/fileboard/dao/mapper/FileBoardMapper.xml"/>
 	</mappers>
 </configuration>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.java.fileboard.dao.mapper.FileBoardMapper">
+	<resultMap type="com.java.fileboard.dto.BoardDto" id="fileboardDto">
+		<result column="board_number" property="boardNumber" />
+		<result column="writer" property="writer" />
+		<result column="subject" property="subject" />
+		<result column="email" property="email" />
+
+		<result column="content" property="content" />
+		<result column="password" property="password" />
+		<result column="write_date" property="writeDate" />
+		<result column="read_count" property="readCount" />
+
+		<result column="group_number" property="groupNumber" />
+		<result column="sequence_number" property="sequenceNumber" />
+		<result column="sequence_level" property="sequenceLevel" />
+		
+		<result column="file_name" property="fileName" />
+		<result column="path" property="path" />
+		<result column="file_size" property="fileSize" />
+	</resultMap>
+	
+	<insert id="fileboardInsert" parameterType="com.java.fileboard.dto.BoardDto">
+		INSERT INTO board(board_number,writer,subject,email,content,
+											password,write_date,read_count,group_number,
+											sequence_number,sequence_level,file_name,path,file_size)
+		VALUES(board_board_number_seq.nextval,#{writer},#{subject},#{email},#{content},
+					#{password}, sysdate, #{readCount},#{groupNumber},#{sequenceNumber},
+					#{sequenceLevel},#{fileName},#{path},#{fileSize})
+	</insert>
+	
+	<select id="fileBoardRead" parameterType="int" resultMap="fileboardDto">
+		SELECT * FROM board WHERE board_number=#{boardNumber}
+	</select>
+	
+	<update id="fileboardUpdate" parameterType="com.java.fileboard.dto.BoardDto">
+	 	UPDATE board SET email=#{email}, subject=#{subject}, content=#{content}, 
+	 	file_name=#{fileName}, path=#{path}, file_size=#{fileSize} 
+	 	WHERE board_number=#{boardNumber}
+	</update>
+</mapper>
