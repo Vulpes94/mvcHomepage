@@ -11,7 +11,6 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import com.java.board.dto.BoardDto;
 import com.java.database.ConnectionProvider;
 import com.java.database.JdbcUtil;
-import com.java.logger.MyLogger;
 import com.java.myBatis.SqlManager;
 
 public class BoardDao {

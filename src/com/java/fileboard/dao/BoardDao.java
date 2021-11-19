@@ -9,7 +9,6 @@ import com.java.fileboard.dto.BoardDto;
 import com.java.database.ConnectionProvider;
 import com.java.database.JdbcUtil;
 import com.java.logger.MyLogger;
-import oracle.net.aso.p;
 
 public class BoardDao {
   private static BoardDao instance = new BoardDao();
