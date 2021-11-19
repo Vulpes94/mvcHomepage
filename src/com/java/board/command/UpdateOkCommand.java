@@ -19,7 +19,7 @@ public class UpdateOkCommand implements Command {
     boardDto.setBoardNumber(Integer.parseInt(request.getParameter("boardNumber")));
     boardDto.setSubject(request.getParameter("subject"));
     boardDto.setEmail(request.getParameter("email"));
-    boardDto.setContent(request.getParameter("content"));
+    boardDto.setContent(request.getParameter("content").replace("\r\n", "<br/>"));
     boardDto.setPassword(request.getParameter("password"));
     MyLogger.logger.info(MyLogger.logMsg + boardDto.toString());
     MyLogger.logger.info(MyLogger.logMsg + "pageNumber:" + pageNumber);

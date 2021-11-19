@@ -4,6 +4,22 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.java.board.dao.mapper.BoardMapper">
+	<resultMap type="com.java.board.dto.BoardDto" id="boardDto">
+		<result column="board_number" property="boardNumber" />
+		<result column="writer" property="writer" />
+		<result column="subject" property="subject" />
+		<result column="email" property="email" />
+
+		<result column="content" property="content" />
+		<result column="password" property="password" />
+		<result column="write_date" property="writeDate" />
+		<result column="read_count" property="readCount" />
+
+		<result column="group_number" property="groupNumber" />
+		<result column="sequence_number" property="sequenceNumber" />
+		<result column="sequence_level" property="sequenceLevel" />
+	</resultMap>
+
 	<select id="boardGroupNumberMax" resultType="int">
 		SELECT NVL(MAX(group_number),0) FROM board
 	</select>
@@ -14,5 +30,51 @@
 		WHERE group_number=#{groupNumber} AND sequence_number > #{sequenceNumber}
 	]]>
 	</update>
+
+	<insert id="boardInsert" parameterType="com.java.board.dto.BoardDto">
+		INSERT INTO board(board_number,writer,subject,email,content,
+											password,write_date,read_count,group_number,
+											sequence_number,sequence_level)
+		VALUES(board_board_number_seq.nextval,#{writer},#{subject},#{email},#{content},
+					#{password}, sysdate, #{readCount},#{groupNumber},#{sequenceNumber},
+					#{sequenceLevel})
+	</insert>
+
+	<select id="boardCount" resultType="int">
+		SELECT COUNT(*) FROM board
+	</select>
+
+	<select id="boardList" parameterType="java.util.HashMap" resultMap="boardDto">
+     <![CDATA[
+     	SELECT * FROM (SELECT ROWNUM rnum, a.* FROM (SELECT * FROM board ORDER BY group_number DESC, sequence_number ASC) a) b WHERE b.rnum >=#{startRow} AND b.rnum <=#{endRow}
+     ]]>
+	</select>
+
+
+	<update id="boardReadCount" parameterType="int">
+		UPDATE board SET read_count=read_count+1 WHERE
+		board_number=#{boardNumber}
+	</update>
+
+	<select id="boardRead" parameterType="int" resultMap="boardDto">
+		SELECT * FROM board WHERE board_number=#{boardNumber}
+	</select>
+
+	<delete id="boardDelete" parameterType="java.util.HashMap">
+		DELETE FROM board
+		WHERE board_number=#{boardNumber} AND password=#{password}
+	</delete>
+
+	<update id="boardUpdate" parameterType="com.java.board.dto.BoardDto">
+		UPDATE board SET email=#{email}, subject=#{subject}, content=#{content}
+		WHERE board_number=#{boardNumber}
+	</update>
 </mapper>    
+
+
+
+
+
+
+
     
