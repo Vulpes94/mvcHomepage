@@ -58,7 +58,7 @@
 		
 		<tr>
 			<td align="center" height="500" width="200">글내용</td>
-			<td valign="top" height="500" colspan="3">${boardDto.content}</td>
+			<td valign="top" height="500" colspan="3" style="white-space: pre;">${boardDto.content}</td>
 		</tr>
 		
 		<tr>
