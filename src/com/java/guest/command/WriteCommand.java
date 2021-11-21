@@ -32,13 +32,13 @@ public class WriteCommand implements Command {
     ArrayList<GuestDto> guestList = null;
     if (count > 0) {
       guestList = GuestDao.getInstance().guestList(startRow, endRow);
+      MyLogger.logger.info(MyLogger.logMsg + guestList.size());
     }
-    MyLogger.logger.info(MyLogger.logMsg + guestList.size());
 
     request.setAttribute("guestList", guestList);
 
-    request.setAttribute("count", count);             // 총 레코드 수
-    request.setAttribute("boardSize", boardSize);     // 한페이지 당 게시물 수
+    request.setAttribute("count", count); // 총 레코드 수
+    request.setAttribute("boardSize", boardSize); // 한페이지 당 게시물 수
     request.setAttribute("currentPage", currentPage); // 요청페이지
 
     return "/WEB-INF/views/guest/write.jsp";
