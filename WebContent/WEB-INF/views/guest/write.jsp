@@ -43,12 +43,9 @@
 					<div class="disp" style="border-width: 1px">
 						${guestDto.name}
 						<fmt:formatDate value="${guestDto.writeDate}" pattern="yyyy-MM-dd HH:mm:ss" />
-
-
 						<a href="javascript:updateCheck('${guestDto.num}','${root}')">수정</a>
 						<a href="javascript:deleteCheck('${guestDto.num}','${root}')">삭제</a>
 					</div>
-
 					<div class="disp-content" style="white-space: pre;">${guestDto.message}</div>
 				</div>
 			</c:forEach>
