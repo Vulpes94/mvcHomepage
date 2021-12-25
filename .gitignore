@@ -12,5 +12,5 @@
 #Tern plugin
 .tern-project
 
-
-!pds/.keep
+/WebContent/pds/
+!/WebContent/pds/.keep
